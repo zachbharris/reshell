@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import {
   Accordion,
   AccordionContent,
@@ -7,25 +8,31 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 import { Button } from "./ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 type Item =
   | {
-    type: "accordion";
-    children: {
-      id: string;
-      title: string;
-      content: React.ReactNode;
-    }[];
-  }
+      type: "accordion";
+      children: {
+        id: string;
+        title: string;
+        content: React.ReactNode;
+      }[];
+    }
   | {
-    type: "select";
-    name: string,
-    options: {
-      label: string;
-      value: string;
-    }[];
-  };
+      type: "select";
+      name: string;
+      options: {
+        label: string;
+        value: string;
+      }[];
+    };
 
 const items: Item[] = [
   {
@@ -49,6 +56,10 @@ const items: Item[] = [
 ];
 
 export default function Sidebar() {
+  function handleSaveAsPNG() {
+    toast.success("Saved as PNG");
+  }
+
   return (
     <aside className="flex flex-col border-l border-border flex-grow w-full max-w-[320px] min-w-[240px]">
       {items.map((item) => {
@@ -58,8 +69,12 @@ export default function Sidebar() {
               <Accordion type="single">
                 {item.children.map((child) => (
                   <AccordionItem key={child.id} value={child.id}>
-                    <AccordionTrigger className="px-4">{child.title}</AccordionTrigger>
-                    <AccordionContent className="px-4 pb-4">{child.content}</AccordionContent>
+                    <AccordionTrigger className="px-4">
+                      {child.title}
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pb-4">
+                      {child.content}
+                    </AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
@@ -74,18 +89,22 @@ export default function Sidebar() {
                   </SelectTrigger>
                   <SelectContent>
                     {item.options.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-            )
+            );
           }
         }
       })}
 
       <div className="flex items-center justify-center p-4 mt-auto">
-        <Button className="w-full">Save image as PNG</Button>
+        <Button type="button" onClick={handleSaveAsPNG} className="w-full">
+          Save image as PNG
+        </Button>
       </div>
     </aside>
   );

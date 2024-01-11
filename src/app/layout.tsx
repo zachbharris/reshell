@@ -24,7 +24,7 @@ export default function RootLayout({
         <NextTheme>
           <Navbar />
           {children}
-          <Toaster />
+          <Toaster position="bottom-left" />
         </NextTheme>
       </body>
     </html>
