@@ -18,6 +18,7 @@ import {
 
 type Item =
   | {
+      id: string;
       type: "accordion";
       children: {
         id: string;
@@ -26,6 +27,7 @@ type Item =
       }[];
     }
   | {
+      id: string;
       type: "select";
       name: string;
       options: {
@@ -36,6 +38,7 @@ type Item =
 
 const items: Item[] = [
   {
+    id: 'device-select',
     type: "select",
     name: "console",
     options: [
@@ -44,6 +47,7 @@ const items: Item[] = [
     ],
   },
   {
+    id: "device-options",
     type: "accordion",
     children: [
       { id: "front-shell", title: "Front Shell", content: "Hello World" },
@@ -66,7 +70,7 @@ export default function Sidebar() {
         switch (item.type) {
           case "accordion": {
             return (
-              <Accordion type="single">
+              <Accordion key={item.id} type="single">
                 {item.children.map((child) => (
                   <AccordionItem key={child.id} value={child.id}>
                     <AccordionTrigger className="px-4">
@@ -82,7 +86,7 @@ export default function Sidebar() {
           }
           case "select": {
             return (
-              <div className="p-4 border-b">
+              <div key={item.id} className="p-4 border-b">
                 <Select>
                   <SelectTrigger>
                     <SelectValue placeholder="Select console" />
